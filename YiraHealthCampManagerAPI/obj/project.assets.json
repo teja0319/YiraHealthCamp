@@ -4983,23 +4983,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\HP\\.nuget\\packages\\": {},
+    "C:\\Users\\PAC-LAP-083\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI.csproj",
+      "projectUniqueName": "C:\\Users\\PAC-LAP-083\\OneDrive\\Desktop\\React Api\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI.csproj",
       "projectName": "YiraHealthCampManagerAPI",
-      "projectPath": "C:\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI.csproj",
-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "C:\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI\\obj\\",
+      "projectPath": "C:\\Users\\PAC-LAP-083\\OneDrive\\Desktop\\React Api\\YiraHealthCampManagerAPI\\YiraHealthCampManagerAPI.csproj",
+      "packagesPath": "C:\\Users\\PAC-LAP-083\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\PAC-LAP-083\\OneDrive\\Desktop\\React Api\\YiraHealthCampManagerAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\PAC-LAP-083\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
