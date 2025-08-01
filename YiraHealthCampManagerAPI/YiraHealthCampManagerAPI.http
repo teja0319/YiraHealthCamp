@@ -1,0 +1,6 @@
+@YiraHealthCampManagerAPI_HostAddress = http://localhost:5296
+
+GET {{YiraHealthCampManagerAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,129 @@
+[
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.AccountController",
+    "Method": "Login",
+    "RelativePath": "api/Account/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "YiraHealthCampManagerAPI.Models.Account.LoginModel",
+        "IsRequired": true
+      },
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.AccountController",
+    "Method": "RegisterUserWeb",
+    "RelativePath": "api/Account/RegisterUserWeb",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerUserModel",
+        "Type": "YiraHealthCampManagerAPI.Models.Account.RegisterUserModelWeb",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.HealthCampController",
+    "Method": "CreateHealthCamp",
+    "RelativePath": "api/HealthCamp/CreateHealthCamp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "healthCampRequest",
+        "Type": "YiraHealthCampManagerAPI.Models.Request.HealthCampRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.HealthCampController",
+    "Method": "GetAllHealthCampRequestsByOrgId",
+    "RelativePath": "api/HealthCamp/GetAllHealthCampRequestsByOrgId",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "OrgId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.HealthCampController",
+    "Method": "GetDashboardStats",
+    "RelativePath": "api/HealthCamp/GetDashboardStats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.HealthCampController",
+    "Method": "GetHealthCampRequestById",
+    "RelativePath": "api/HealthCamp/GetHealthCampRequestById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.HealthCampController",
+    "Method": "HealthCampDataByStatusAndOrg",
+    "RelativePath": "api/HealthCamp/HealthCampDataByStatusAndOrg",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "campData",
+        "Type": "YiraHealthCampManagerAPI.Models.Request.GetHealthCampData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "YiraHealthCampManagerAPI.Controllers.HealthCampController",
+    "Method": "HealthCampStatusUpdate",
+    "RelativePath": "api/HealthCamp/HealthCampStatusUpdate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateHealthCampDataStatus",
+        "Type": "YiraHealthCampManagerAPI.Models.Request.UpdateHealthCampDataStatus",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
