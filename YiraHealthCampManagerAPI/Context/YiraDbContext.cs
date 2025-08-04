@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using YiraApi.Models.Authentication;
 using YiraHealthCampManagerAPI.Models.Account;
 using YiraHealthCampManagerAPI.Models.CampRequest;
+using YiraHealthCampManagerAPI.Models.Organization;
 
 namespace YiraHealthCampManagerAPI.Context
 {
@@ -34,6 +35,13 @@ namespace YiraHealthCampManagerAPI.Context
         public DbSet<RequestedService> RequestedService { get; set; }
 
         #endregion
+
+
+        #region
+        public DbSet<Organizations> organizations { get; set; }
+
+        #endregion
+
 
 
 

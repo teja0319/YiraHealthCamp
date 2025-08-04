@@ -12,5 +12,6 @@ namespace YiraHealthCampManagerAPI.Interfaces.ServiceInterfaces
         Task<Response<object>> HealthCampDataByStatusAndOrg(int OrgId, string ApprovalStatus);
         Task<Response<object>> HealthCampStatusUpdate(int camp, string ApprovalStatus);
         Task<Response<object>> GetDashboardStatsAsync();
+        Task<Response<object>> GetHealthServices();
     }
 }

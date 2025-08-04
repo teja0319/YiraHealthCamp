@@ -74,7 +74,7 @@ namespace YiraHealthCampManagerAPI.Repositories
                             .Where(rs => rs.HealthCampRequestId == requestEntity.Id)
                             .ToListAsync();
 
-                        var existingServiceIds = existingServices.Select(s => s.ServiceId).ToHashSet();
+                        var existingServiceIds = existingServices.Select(s => s.Id).ToHashSet();
 
                         foreach (var es in existingServices)
                         {
@@ -132,6 +132,27 @@ namespace YiraHealthCampManagerAPI.Repositories
             {
                 return false;
             }
+        }
+
+        public async Task<List<HealthCampServiceRequestResponse>> ActiveHealthCampServices()
+        {
+            try
+            {
+                var activeServices = await _context.HealthService
+                                     .Where(HealthService => HealthService.Status == true)
+                                     .Select(healthServices => new HealthCampServiceRequestResponse
+                                     {
+                                         Id = healthServices.ServiceID,
+                                         ServiceName = healthServices.ServiceName
+                                     }).ToListAsync();
+                return activeServices;
+
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+
         }
 
 

@@ -48,6 +48,33 @@ namespace YiraHealthCampManagerAPI.Services
             }
         }
 
+        public async Task<Response<object>> GetHealthServices()
+        {
+            Response<object> response = new Response<object>();
+            try
+            {
+                var healthCampServices = await _healthCampRepository.ActiveHealthCampServices();
+                if (healthCampServices != null && healthCampServices.Count > 0)
+                {
+                    response.status = true;
+                    response.data = healthCampServices;
+                    response.message = "Health camp services retrieved successfully.";
+                }
+                else
+                {
+                    response.status = false;
+                    response.data = new List<HealthCampServiceRequestResponse>();
+                    response.message = "No active health camp services found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.status = false;
+                response.message = "An error occurred while retrieving health camp services.";
+            }
+            return response;
+        }
+
         public async Task<Response<List<HealthCampResponseModel>>> GetAllHealthCampRequestsByOrgId(int OrgId)
         {
             Response<List<HealthCampResponseModel>> response = new Response<List<HealthCampResponseModel>>();

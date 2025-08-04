@@ -1,1 +1,23 @@
-.vs/ 
+# Visual Studio
+.vs/
+
+# Build results
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# For your specific project
+/YiraHealthCampManagerAPI/bin/Debug/net8.0/
+/YiraHealthCampManagerAPI/obj/
