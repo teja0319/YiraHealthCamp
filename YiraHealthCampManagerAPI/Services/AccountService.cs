@@ -417,7 +417,7 @@ namespace YiraHealthCampManagerAPI.Services
                     {
                         status = true,
                         message = "Successfully Logged In.",
-                        data = JsonConvert.DeserializeObject(data.Data)
+                        data = data.Data
                     };
                 }
             }

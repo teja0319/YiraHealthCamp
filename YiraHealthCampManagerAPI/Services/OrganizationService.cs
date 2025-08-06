@@ -34,6 +34,7 @@ namespace YiraHealthCampManagerAPI.Services
             if (!organizations.IsUpdate)
             {
                 var CheckOrgNameExists = await _organizationRepository.IsOrganizationNameExists(organizations.OrganizationName);
+
                 if (CheckOrgNameExists)
                 {
                     resp.status = false;
