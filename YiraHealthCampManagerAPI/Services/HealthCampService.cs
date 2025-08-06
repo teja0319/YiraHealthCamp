@@ -75,12 +75,12 @@ namespace YiraHealthCampManagerAPI.Services
             return response;
         }
 
-        public async Task<Response<List<HealthCampResponseModel>>> GetAllHealthCampRequestsByOrgId(int OrgId)
+        public async Task<Response<List<HealthCampResponseModel>>> GetAllHealthCampRequestsByOrgId(int OrgId, int pageNumber = 1, int pageSize = 10)
         {
             Response<List<HealthCampResponseModel>> response = new Response<List<HealthCampResponseModel>>();
             try
             {
-                var healthCampRequests = await _healthCampRepository.GetAllHealthCampRequestsByOrgId(OrgId);
+                var healthCampRequests = await _healthCampRepository.GetAllHealthCampRequestsByOrgId(OrgId ,pageNumber,pageSize);
                 if (healthCampRequests != null && healthCampRequests.Count > 0)
                 {
                     response.status = true;

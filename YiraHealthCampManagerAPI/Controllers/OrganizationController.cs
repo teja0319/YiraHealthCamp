@@ -36,10 +36,8 @@ namespace YiraHealthCampManagerAPI.Controllers
         [Route("GetOrganizations")]
         public async Task<IActionResult> GetOrganizations(int pageNumber = 1, int pageSize = 10, int industryId = 0 ,string status = null , string search = null)
         {
-
                 var response = await _organizationService.GetOrganizations(pageNumber, pageSize , industryId , status, search);
                 return Ok(response);
-
         }
 
         [HttpGet]
@@ -50,9 +48,6 @@ namespace YiraHealthCampManagerAPI.Controllers
             return Ok(response);
 
         }
-
-
-
 
 
     }

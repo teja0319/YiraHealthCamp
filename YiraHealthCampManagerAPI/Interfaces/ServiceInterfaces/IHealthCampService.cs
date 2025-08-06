@@ -7,7 +7,7 @@ namespace YiraHealthCampManagerAPI.Interfaces.ServiceInterfaces
     public interface IHealthCampService
     {
         Task<Response<object>> CreateHealthCampRequest(HealthCampRequestModel healthCampRequest);
-        Task<Response<List<HealthCampResponseModel>>> GetAllHealthCampRequestsByOrgId(int OrgId);
+        Task<Response<List<HealthCampResponseModel>>> GetAllHealthCampRequestsByOrgId(int OrgId , int pageNumber = 1, int pageSize = 10);
         Task<Response<HealthCampResponseModel>> GetHealthCampRequestById(int id);
         Task<Response<object>> HealthCampDataByStatusAndOrg(int OrgId, string ApprovalStatus);
         Task<Response<object>> HealthCampStatusUpdate(int camp, string ApprovalStatus);

@@ -157,62 +157,76 @@ namespace YiraHealthCampManagerAPI.Repositories
 
 
 
-        public async Task<List<HealthCampResponseModel>> GetAllHealthCampRequestsByOrgId(int OrgId)
+        public async Task<List<HealthCampResponseModel>> GetAllHealthCampRequestsByOrgId(int OrgId, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
-                var healthCampRequests = await (from h in _context.HealthCampRequest
-                                                join s in _context.RequestedService on h.Id equals s.HealthCampRequestId
-                                                join healthService in _context.HealthService on s.ServiceId equals healthService.ServiceID into healthServices
-                                                from healthService in healthServices.DefaultIfEmpty()
-                                                where OrgId != 0 ? h.OrgId == OrgId && healthService.Status == true : healthService.Status == true
-                                                select new
-                                                {
-                                                    Id = h.Id,
-                                                    OrgId = h.OrgId,
-                                                    OrgName = _context.organizations.Where(o => o.OrganizationID == h.OrgId).Select(o => o.OrganizationName).FirstOrDefault(),
-                                                    CampName = h.CampName,
-                                                    EmployeesCount = h.EmployeesCount,
-                                                    CampDuration = h.CampDuration,
-                                                    PreferredDate = h.PreferredDate,
-                                                    SpecialMedicalRequirements = h.SpecialMedicalRequirements,
-                                                    AvailableFacilities = h.AvailableFacilities,
-                                                    AdditionalNote = h.AdditionalNote,
-                                                    CreatedBy = h.CreatedBy,
-                                                    CreatedAt = h.CreatedAt.ToString(),
-                                                    UpdatedAt = h.UpdatedAt.ToString(),
-                                                    ApprovalStatus = h.ApprovalStatus,
-                                                    ServiceRequest = healthService.ServiceName
-                                                }).GroupBy(h => h.Id).Select (g => new HealthCampResponseModel
-                                                {
-                                                    Id = g.Key,
-                                                    OrgId = g.FirstOrDefault().OrgId,
-                                                    CampName = g.FirstOrDefault().CampName,
-                                                    OrgName = g.FirstOrDefault().OrgName,
-                                                    EmployeesCount = g.FirstOrDefault().EmployeesCount,
-                                                    CampDuration = g.FirstOrDefault().CampDuration,
-                                                    PreferredDate = g.FirstOrDefault().PreferredDate,
-                                                    SpecialMedicalRequirements = g.FirstOrDefault().SpecialMedicalRequirements,
-                                                    AvailableFacilities = g.FirstOrDefault().AvailableFacilities,
-                                                    AdditionalNote = g.FirstOrDefault().AdditionalNote,
-                                                    CreatedBy = g.FirstOrDefault().CreatedBy,
-                                                    CreatedAt = g.FirstOrDefault().CreatedAt,
-                                                    UpdatedAt = g.FirstOrDefault().UpdatedAt,
-                                                    ApprovalStatus = g.FirstOrDefault().ApprovalStatus,
-                                                    ServiceRequest = g.Select(s => new HealthCampServiceRequestResponse
-                                                    {
-                                                            Id = s.Id,
-                                                            ServiceName = s.ServiceRequest
-                                                    }).ToList(),
-                                                }).ToListAsync();
+                var query = from h in _context.HealthCampRequest
+                            join s in _context.RequestedService on h.Id equals s.HealthCampRequestId
+                            join healthService in _context.HealthService on s.ServiceId equals healthService.ServiceID into healthServices
+                            from healthService in healthServices.DefaultIfEmpty()
+                            where (OrgId != 0 ? h.OrgId == OrgId : true) && healthService.Status == true
+                            select new
+                            {
+                                Id = h.Id,
+                                OrgId = h.OrgId,
+                                OrgName = _context.organizations
+                                    .Where(o => o.OrganizationID == h.OrgId)
+                                    .Select(o => o.OrganizationName)
+                                    .FirstOrDefault(),
+                                CampName = h.CampName,
+                                EmployeesCount = h.EmployeesCount,
+                                CampDuration = h.CampDuration,
+                                PreferredDate = h.PreferredDate,
+                                SpecialMedicalRequirements = h.SpecialMedicalRequirements,
+                                AvailableFacilities = h.AvailableFacilities,
+                                AdditionalNote = h.AdditionalNote,
+                                CreatedBy = h.CreatedBy,
+                                CreatedAt = h.CreatedAt.ToString(),
+                                UpdatedAt = h.UpdatedAt.ToString(),
+                                ApprovalStatus = h.ApprovalStatus,
+                                ServiceRequest = healthService.ServiceName
+                            };
 
-                return healthCampRequests;
+                var groupedQuery = query
+                    .GroupBy(h => h.Id)
+                    .Select(g => new HealthCampResponseModel
+                    {
+                        Id = g.Key,
+                        OrgId = g.FirstOrDefault().OrgId,
+                        OrgName = g.FirstOrDefault().OrgName,
+                        CampName = g.FirstOrDefault().CampName,
+                        EmployeesCount = g.FirstOrDefault().EmployeesCount,
+                        CampDuration = g.FirstOrDefault().CampDuration,
+                        PreferredDate = g.FirstOrDefault().PreferredDate,
+                        SpecialMedicalRequirements = g.FirstOrDefault().SpecialMedicalRequirements,
+                        AvailableFacilities = g.FirstOrDefault().AvailableFacilities,
+                        AdditionalNote = g.FirstOrDefault().AdditionalNote,
+                        CreatedBy = g.FirstOrDefault().CreatedBy,
+                        CreatedAt = g.FirstOrDefault().CreatedAt,
+                        UpdatedAt = g.FirstOrDefault().UpdatedAt,
+                        ApprovalStatus = g.FirstOrDefault().ApprovalStatus,
+                        ServiceRequest = g.Select(s => new HealthCampServiceRequestResponse
+                        {
+                            Id = s.Id,
+                            ServiceName = s.ServiceRequest
+                        }).ToList()
+                    });
+
+                var pagedResult = await groupedQuery
+                    .OrderByDescending(x => x.CreatedAt) 
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return pagedResult;
             }
             catch (Exception ex)
             {
                 return null;
             }
         }
+
 
         public async Task<HealthCampResponseModel> GetHealthCampRequestById(int id)
         {

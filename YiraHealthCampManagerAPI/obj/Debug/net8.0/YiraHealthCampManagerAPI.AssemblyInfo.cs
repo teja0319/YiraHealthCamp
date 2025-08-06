@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YiraHealthCampManagerAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b47e709e13365bd93281669031a0a2ddc8a944fe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32f338fe11e9a5e73035f3f44c532c41ba3dcaab")]
 [assembly: System.Reflection.AssemblyProductAttribute("YiraHealthCampManagerAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YiraHealthCampManagerAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -174,11 +174,13 @@ namespace YiraHealthCampManagerAPI.Repositories
                                 orgs.PhoneNumber,
                                 orgs.EmailID,
                                 orgs.NoUsers,
-                                orgs.CreatedDate
+                                orgs.CreatedDate,
+                                orgs.Status
                             } into orgGroup
                             select new OrganizationResponse
                             {
                                 OrganizationID = orgGroup.Key.OrganizationID,
+                                Status = orgGroup.Key.Status,
                                 OrganizationName = orgGroup.Key.OrganizationName,
                                 AdminUserName = orgGroup.Key.AdminUserName,
                                 Industry = orgGroup.FirstOrDefault().ind.TypeName,

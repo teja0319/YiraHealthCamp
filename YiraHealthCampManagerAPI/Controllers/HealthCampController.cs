@@ -30,7 +30,7 @@ namespace YiraHealthCampManagerAPI.Controllers
 
         [HttpPost]
         [Route("GetAllHealthCampRequestsByOrgId")]
-        public async Task<IActionResult> GetAllHealthCampRequestsByOrgId(int OrgId)
+        public async Task<IActionResult> GetAllHealthCampRequestsByOrgId(int OrgId , int pageNumber = 1, int pageSize = 10)
         {
             var response = await _healthCampService.GetAllHealthCampRequestsByOrgId(OrgId);
             return Ok(response);

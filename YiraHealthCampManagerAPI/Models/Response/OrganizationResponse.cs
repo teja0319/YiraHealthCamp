@@ -7,6 +7,7 @@
         public string OrganizationName { get; set; }
         public string Industry { get; set; }
         public string PhoneNumber { get; set; }
+        public string Status { get; set; }
         public string? EmailID { get; set; }
         public int Employees { get; set; }
         public string? AdminUserName { get; set; }
