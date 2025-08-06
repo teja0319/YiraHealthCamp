@@ -11,9 +11,19 @@
         public string? AspnetUserID { get; set; }
         public string? Logo { get; set; }
         public string? TimeZone { get; set; }
+        public string? status { get; set; }
         public int? CountryCodeId { get; set; }
         public string? WebsiteUrl { get; set; }
+        public int? OrgTypeId { get; set; }
         public string? Address { get; set; }
         public string? Description { get; set; }
+        public bool IsUpdate { get; set; } = false;
     }
+
+
+
+
+
+
+
 }

@@ -38,11 +38,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
 #region Services
 builder.Services.AddScoped<IAccountService, AccountService>(); 
 builder.Services.AddScoped<IHealthCampService, HealthCampService>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 #endregion
 
 #region Repositories
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IHealthCampRepository, HealthCampRepository>();
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 #endregion
 
 var jwtCred = new JWTTokenConfigCreds();

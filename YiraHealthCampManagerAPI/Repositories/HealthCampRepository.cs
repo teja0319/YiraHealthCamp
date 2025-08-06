@@ -170,6 +170,7 @@ namespace YiraHealthCampManagerAPI.Repositories
                                                 {
                                                     Id = h.Id,
                                                     OrgId = h.OrgId,
+                                                    OrgName = _context.organizations.Where(o => o.OrganizationID == h.OrgId).Select(o => o.OrganizationName).FirstOrDefault(),
                                                     CampName = h.CampName,
                                                     EmployeesCount = h.EmployeesCount,
                                                     CampDuration = h.CampDuration,
@@ -187,6 +188,7 @@ namespace YiraHealthCampManagerAPI.Repositories
                                                     Id = g.Key,
                                                     OrgId = g.FirstOrDefault().OrgId,
                                                     CampName = g.FirstOrDefault().CampName,
+                                                    OrgName = g.FirstOrDefault().OrgName,
                                                     EmployeesCount = g.FirstOrDefault().EmployeesCount,
                                                     CampDuration = g.FirstOrDefault().CampDuration,
                                                     PreferredDate = g.FirstOrDefault().PreferredDate,

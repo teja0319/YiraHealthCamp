@@ -7,5 +7,6 @@ namespace YiraHealthCampManagerAPI.Interfaces.RepositoryInterfaces
     {
         Task<Response<object>> Login(LoginModel model, string code = "");
         Task<Response<object>> RegisterUserWeb(RegisterUserModelWeb registerUserModelweb);
+        Task<ApplicationUser> CreateAspNetUserAsync(RegisterUserModel model, int organizationId, string roleName = "", int Age = 0);
     }
 }

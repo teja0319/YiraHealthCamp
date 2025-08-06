@@ -39,6 +39,7 @@ namespace YiraHealthCampManagerAPI.Context
 
         #region
         public DbSet<Organizations> organizations { get; set; }
+        public DbSet<OrganizationTypes> OrganizationTypes { get; set; }
 
         #endregion
 

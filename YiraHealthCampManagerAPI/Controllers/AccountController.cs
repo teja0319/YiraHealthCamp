@@ -20,8 +20,7 @@ namespace YiraHealthCampManagerAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel model, string code = "")
         {
-            var a = await _accountService.Login(model, code);
-            return Ok(a);
+            return Ok(await _accountService.Login(model, code));
         }
 
 

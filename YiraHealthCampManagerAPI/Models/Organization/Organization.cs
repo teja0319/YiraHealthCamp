@@ -12,11 +12,13 @@ namespace YiraHealthCampManagerAPI.Models.Organization
         public string OrganizationName { get; set; }
         public string PhoneNumber { get; set; }
         public string? EmailID { get; set; }
+        public string? Status { get; set; }
         public int NoUsers { get; set; }
         public string? AspnetUserID { get; set; }
+        public string? OrgKey { get; set; }
         public string? AdminUserName { get; set; }
         public DateTime? RegistrationDate { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public int StatusTypeID { get; set; }
         public string CreatedBy { get; set; }

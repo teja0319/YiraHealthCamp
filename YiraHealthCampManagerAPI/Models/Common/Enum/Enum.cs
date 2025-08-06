@@ -6,7 +6,9 @@
         Approved,
         Rejected ,
         Cancelled,
-        Completed
+        Completed,
+        InActive,
+        Active
     }
 
     public enum EnumRoles
