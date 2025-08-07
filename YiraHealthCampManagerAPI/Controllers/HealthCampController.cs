@@ -30,9 +30,9 @@ namespace YiraHealthCampManagerAPI.Controllers
 
         [HttpPost]
         [Route("GetAllHealthCampRequestsByOrgId")]
-        public async Task<IActionResult> GetAllHealthCampRequestsByOrgId(int OrgId , int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAllHealthCampRequestsByOrgId(int OrgId , string approvalStatus = null,  int pageNumber = 1, int pageSize = 10)
         {
-            var response = await _healthCampService.GetAllHealthCampRequestsByOrgId(OrgId);
+            var response = await _healthCampService.GetAllHealthCampRequestsByOrgId(OrgId, approvalStatus, pageNumber, pageSize);
             return Ok(response);
         }
         [HttpGet]
@@ -59,14 +59,6 @@ namespace YiraHealthCampManagerAPI.Controllers
         public async Task<IActionResult> HealthCampStatusUpdate(UpdateHealthCampDataStatus updateHealthCampDataStatus)
         {
             var response = await _healthCampService.HealthCampStatusUpdate(updateHealthCampDataStatus.Id, updateHealthCampDataStatus.ApprovalStatus);
-            return Ok(response);
-        }
-
-        [HttpPost]
-        [Route("HealthCampDataByStatusAndOrg")]
-        public async Task<IActionResult> HealthCampDataByStatusAndOrg(GetHealthCampData campData)
-        {
-            var response = await _healthCampService.HealthCampDataByStatusAndOrg(campData.OrgId, campData.ApprovalStatus);
             return Ok(response);
         }
 

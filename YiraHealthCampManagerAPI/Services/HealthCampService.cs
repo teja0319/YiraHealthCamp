@@ -75,16 +75,16 @@ namespace YiraHealthCampManagerAPI.Services
             return response;
         }
 
-        public async Task<Response<List<HealthCampResponseModel>>> GetAllHealthCampRequestsByOrgId(int OrgId, int pageNumber = 1, int pageSize = 10)
+        public async Task<Response<object>> GetAllHealthCampRequestsByOrgId(int OrgId, string approvalStatus, int pageNumber = 1, int pageSize = 10)
         {
-            Response<List<HealthCampResponseModel>> response = new Response<List<HealthCampResponseModel>>();
+            Response<object> response = new Response<object>();
             try
             {
-                var healthCampRequests = await _healthCampRepository.GetAllHealthCampRequestsByOrgId(OrgId ,pageNumber,pageSize);
-                if (healthCampRequests != null && healthCampRequests.Count > 0)
+                var result = await _healthCampRepository.GetAllHealthCampRequestsByOrgId(OrgId , approvalStatus , pageNumber, pageSize);
+                if (result != null && result.data != null)
                 {
                     response.status = true;
-                    response.data = healthCampRequests;
+                    response.data = result.data;
                     response.message = "Health camp requests retrieved successfully.";
                 }
                 else
@@ -157,33 +157,6 @@ namespace YiraHealthCampManagerAPI.Services
             return response;
         }
 
-        public async Task<Response<object>> HealthCampDataByStatusAndOrg(int OrgId, string ApprovalStatus)
-        {
-           Response<object> response = new Response<object>();
-
-            try
-            {
-                var healthCampRequests = await _healthCampRepository.HealthCampDataByStatusAndOrg(OrgId, ApprovalStatus);
-                if (healthCampRequests != null && healthCampRequests.Count > 0)
-                {
-                    response.status = true;
-                    response.data = healthCampRequests;
-                    response.message = "Health camp requests retrieved successfully.";
-                }
-                else
-                {
-                    response.status = false;
-                    response.data = healthCampRequests;
-                    response.message = "No health camp requests found for the organization with the specified status.";
-                }
-            }
-            catch (Exception ex)
-            {
-                response.status = false;
-                response.message = "An error occurred while retrieving health camp requests by status and organization.";
-            }
-            return response;
-        }
 
         public async Task<Response<object>> GetDashboardStatsAsync()
         {

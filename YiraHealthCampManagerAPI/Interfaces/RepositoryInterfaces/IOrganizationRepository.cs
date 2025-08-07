@@ -1,4 +1,5 @@
-﻿using YiraHealthCampManagerAPI.Models.Request;
+﻿using YiraHealthCampManagerAPI.Models.Common;
+using YiraHealthCampManagerAPI.Models.Request;
 using YiraHealthCampManagerAPI.Models.Response;
 
 namespace YiraHealthCampManagerAPI.Interfaces.RepositoryInterfaces
@@ -10,6 +11,6 @@ namespace YiraHealthCampManagerAPI.Interfaces.RepositoryInterfaces
         Task<List<OrganizationTypesResponse>> OrganizationTypes();
         Task<AllOrgsInfo> OrganizationInfo();
         Task<bool> UpdateAspnetUserID(long organizationID, string aspnetUserID);
-        Task<List<OrganizationResponse>> GetOrgnizations(int pageNumber, int pageSize, int industryId, string status, string search);
+        Task<Response<object>> GetOrgnizations(int pageNumber, int pageSize, int industryId, string status, string searchTerm);
     }
 }

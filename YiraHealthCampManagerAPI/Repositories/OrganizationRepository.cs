@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using YiraApi.Common.CustomException;
 using YiraHealthCampManagerAPI.Context;
 using YiraHealthCampManagerAPI.Interfaces.RepositoryInterfaces;
+using YiraHealthCampManagerAPI.Models.Common;
 using YiraHealthCampManagerAPI.Models.Common.Enum;
 using YiraHealthCampManagerAPI.Models.Organization;
 using YiraHealthCampManagerAPI.Models.Request;
@@ -141,10 +143,11 @@ namespace YiraHealthCampManagerAPI.Repositories
             }
         }
 
-        public async Task<List<OrganizationResponse>> GetOrgnizations(int pageNumber, int pageSize , int industryId ,string status,string searchTerm)
+        public async Task<Response<object>> GetOrgnizations(int pageNumber, int pageSize , int industryId ,string status,string searchTerm)
         {
             try
             {
+                Response<object> response = new Response<object>();
                 ApprovalStatus approvalStatus = status != null
                     ? (ApprovalStatus)Enum.Parse(typeof(ApprovalStatus), status, true)
                     : ApprovalStatus.Active;
@@ -198,17 +201,32 @@ namespace YiraHealthCampManagerAPI.Repositories
                                 RegistrationDate = orgGroup.Key.CreatedDate,
                             };
 
+                int totalCount = await query.CountAsync();
+                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
                 var pagedData = await query
                     .OrderByDescending(o => o.CreatedDate) 
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
 
-                return pagedData;
+                response.data = new
+                {
+                    totalPages,
+                    totalCount,
+                    currentPage = pageNumber,
+                    pageSize,
+                    results = pagedData
+                };
+
+                return response;
             }
             catch (Exception ex)
             {
-                return new List<OrganizationResponse>();
+                return new Response<object>()
+                {
+                    status = false
+                };
             }
         }
 

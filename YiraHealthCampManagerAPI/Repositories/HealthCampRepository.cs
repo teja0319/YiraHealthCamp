@@ -2,6 +2,7 @@
 using YiraHealthCampManagerAPI.Context;
 using YiraHealthCampManagerAPI.Interfaces.RepositoryInterfaces;
 using YiraHealthCampManagerAPI.Models.CampRequest;
+using YiraHealthCampManagerAPI.Models.Common;
 using YiraHealthCampManagerAPI.Models.Common.Enum;
 using YiraHealthCampManagerAPI.Models.Request;
 using YiraHealthCampManagerAPI.Models.Response;
@@ -157,15 +158,20 @@ namespace YiraHealthCampManagerAPI.Repositories
 
 
 
-        public async Task<List<HealthCampResponseModel>> GetAllHealthCampRequestsByOrgId(int OrgId, int pageNumber = 1, int pageSize = 10)
+        public async Task<Response<object>> GetAllHealthCampRequestsByOrgId(int OrgId, string approvalStatus, int pageNumber = 1, int pageSize = 10 )
         {
             try
             {
+                Response<object> response = new Response<object>();
+                response.data = null;
+
+                ApprovalStatus status = !string.IsNullOrEmpty(approvalStatus) ? (ApprovalStatus)Enum.Parse(typeof(ApprovalStatus), approvalStatus, true) :ApprovalStatus.Pending;
+
                 var query = from h in _context.HealthCampRequest
                             join s in _context.RequestedService on h.Id equals s.HealthCampRequestId
                             join healthService in _context.HealthService on s.ServiceId equals healthService.ServiceID into healthServices
                             from healthService in healthServices.DefaultIfEmpty()
-                            where (OrgId != 0 ? h.OrgId == OrgId : true) && healthService.Status == true
+                            where (OrgId != 0 ? h.OrgId == OrgId : true) && healthService.Status == true && (string.IsNullOrEmpty(approvalStatus) || h.ApprovalStatus == status.ToString())
                             select new
                             {
                                 Id = h.Id,
@@ -185,7 +191,7 @@ namespace YiraHealthCampManagerAPI.Repositories
                                 CreatedAt = h.CreatedAt.ToString(),
                                 UpdatedAt = h.UpdatedAt.ToString(),
                                 ApprovalStatus = h.ApprovalStatus,
-                                ServiceRequest = healthService.ServiceName
+                                ServiceRequest = healthService.ServiceName,
                             };
 
                 var groupedQuery = query
@@ -213,13 +219,25 @@ namespace YiraHealthCampManagerAPI.Repositories
                         }).ToList()
                     });
 
+                int totalCount = await groupedQuery.CountAsync();
+                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+
                 var pagedResult = await groupedQuery
                     .OrderByDescending(x => x.CreatedAt) 
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
+                response.data = new
+                {
+                    totalPages,
+                    totalCount,
+                    currentPage = pageNumber,
+                    pageSize,
+                    results = pagedResult
+                };
 
-                return pagedResult;
+                return response;
             }
             catch (Exception ex)
             {
@@ -305,65 +323,6 @@ namespace YiraHealthCampManagerAPI.Repositories
             }
 
         }
-
-        public async Task<List<HealthCampResponseModel>> HealthCampDataByStatusAndOrg(int OrgId , string ApprovalStatus)
-        {
-            try
-            {
-                ApprovalStatus status = (ApprovalStatus)Enum.Parse(typeof(ApprovalStatus), ApprovalStatus, true);
-
-                var healthCampRequests = await (from h in _context.HealthCampRequest
-                                                join s in _context.RequestedService on h.Id equals s.HealthCampRequestId
-                                                join healthService in _context.HealthService on s.ServiceId equals healthService.ServiceID into healthServices
-                                                from healthService in healthServices.DefaultIfEmpty()
-                                                where healthService.Status == true && s.Status == true &&
-                                                          (OrgId == 0 || h.OrgId == OrgId) &&
-                                                          (status == null || h.ApprovalStatus == status.ToString())
-                                                select new
-                                                {
-                                                    Id = h.Id,
-                                                    OrgId = h.OrgId,
-                                                    CampName = h.CampName,
-                                                    EmployeesCount = h.EmployeesCount,
-                                                    CampDuration = h.CampDuration,
-                                                    PreferredDate = h.PreferredDate,
-                                                    SpecialMedicalRequirements = h.SpecialMedicalRequirements,
-                                                    AvailableFacilities = h.AvailableFacilities,
-                                                    AdditionalNote = h.AdditionalNote,
-                                                    CreatedBy = h.CreatedBy,
-                                                    CreatedAt = h.CreatedAt.ToString(),
-                                                    UpdatedAt = h.UpdatedAt.ToString(),
-                                                    ApprovalStatus = h.ApprovalStatus,
-                                                    ServiceRequest = healthService.ServiceName
-                                                }).GroupBy(h => h.Id).Select(g => new HealthCampResponseModel
-                                                {
-                                                    Id = g.Key,
-                                                    OrgId = g.FirstOrDefault().OrgId,
-                                                    CampName = g.FirstOrDefault().CampName,
-                                                    EmployeesCount = g.FirstOrDefault().EmployeesCount,
-                                                    CampDuration = g.FirstOrDefault().CampDuration,
-                                                    PreferredDate = g.FirstOrDefault().PreferredDate,
-                                                    SpecialMedicalRequirements = g.FirstOrDefault().SpecialMedicalRequirements,
-                                                    AvailableFacilities = g.FirstOrDefault().AvailableFacilities,
-                                                    AdditionalNote = g.FirstOrDefault().AdditionalNote,
-                                                    CreatedBy = g.FirstOrDefault().CreatedBy,
-                                                    CreatedAt = g.FirstOrDefault().CreatedAt,
-                                                    UpdatedAt = g.FirstOrDefault().UpdatedAt,
-                                                    ApprovalStatus = g.FirstOrDefault().ApprovalStatus,
-                                                    ServiceRequest = g.Select(s => new HealthCampServiceRequestResponse
-                                                    {
-                                                        Id = s.Id,
-                                                        ServiceName = s.ServiceRequest
-                                                    }).ToList(),
-                                                }).ToListAsync();
-                return healthCampRequests;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
 
         public async Task<DashboardStatsResponse> GetDashboardStatsAsync()
         {

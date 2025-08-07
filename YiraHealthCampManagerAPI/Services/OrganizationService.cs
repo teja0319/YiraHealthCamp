@@ -203,16 +203,10 @@ namespace YiraHealthCampManagerAPI.Services
             {
                 Response<object> response = new Response<object>();
                 var organizations = await _organizationRepository.GetOrgnizations(pageNumber, pageSize , industryId , status , search);
-                if (organizations != null && organizations.Count > 0)
+                if (organizations != null && organizations.data != null)
                 {
-                    var dataobj = new
-                    {
-                        Organizations = organizations,
-                        PageNumber = pageNumber,
-                        PageSize = pageSize
-                    };
                     response.status = true;
-                    response.data = dataobj;
+                    response.data = organizations.data;
                     response.message = "Organizations fetched successfully.";
                 }
                 else
