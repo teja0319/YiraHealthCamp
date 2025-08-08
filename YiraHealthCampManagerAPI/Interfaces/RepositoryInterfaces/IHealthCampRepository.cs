@@ -10,6 +10,7 @@ namespace YiraHealthCampManagerAPI.Interfaces.RepositoryInterfaces
         Task<Response<object>> GetAllHealthCampRequestsByOrgId(int OrgId, string approvalStatus, int pageNumber = 1, int pageSize = 10);
         Task<HealthCampResponseModel> GetHealthCampRequestById(int id);
         Task<bool> HealthCampStatusUpdate(int camp, string ApprovalStatus);
+        Task<OrgContactDetailsResponse> GetOrgContactDetails(int orgId);
         Task<DashboardStatsResponse> GetDashboardStatsAsync();
         Task<List<HealthCampServiceRequestResponse>> ActiveHealthCampServices();
 

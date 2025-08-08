@@ -244,6 +244,34 @@ namespace YiraHealthCampManagerAPI.Repositories
             }
         }
 
+        public async Task<OrgContactDetailsResponse> GetOrgContactDetails(int orgId)
+        {
+            try
+            {
+                var orgDetails = await _context.organizations
+                    .Where(o => o.OrganizationID == orgId)
+                    .Select(o => new OrgContactDetailsResponse
+                    {
+                        OrgId = o.OrganizationID,
+                        OrgName = o.OrganizationName,
+                        Address = o.Address,
+                        Email = o.EmailID,
+                        PhoneNumber = o.PhoneNumber,
+                        ContactPerson = o.AdminUserName
+                    }).FirstOrDefaultAsync();
+                if (orgDetails != null)
+                {
+                    return orgDetails;
+                }
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public async Task<HealthCampResponseModel> GetHealthCampRequestById(int id)
         {

@@ -75,6 +75,33 @@ namespace YiraHealthCampManagerAPI.Services
             return response;
         }
 
+        public async Task<Response<object>> GetOrgContactDetails(int orgId)
+        {
+            Response<object> response = new Response<object>();
+            try
+            {
+                var orgContactDetails = await _healthCampRepository.GetOrgContactDetails(orgId);
+                if (orgContactDetails != null)
+                {
+                    response.status = true;
+                    response.data = orgContactDetails;
+                    response.message = "Organization contact details retrieved successfully.";
+                }
+                else
+                {
+                    response.status = false;
+                    response.data = null;
+                    response.message = "No contact details found for the organization.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.status = false;
+                response.message = "An error occurred while retrieving organization contact details.";
+            }
+            return response;
+        }
+
         public async Task<Response<object>> GetAllHealthCampRequestsByOrgId(int OrgId, string approvalStatus, int pageNumber = 1, int pageSize = 10)
         {
             Response<object> response = new Response<object>();

@@ -35,6 +35,15 @@ namespace YiraHealthCampManagerAPI.Controllers
             var response = await _healthCampService.GetAllHealthCampRequestsByOrgId(OrgId, approvalStatus, pageNumber, pageSize);
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("GetOrgContactDetails")]
+        public async Task<IActionResult> GetOrgContactDetails(int orgId)
+        {
+            var response = await _healthCampService.GetOrgContactDetails(orgId);
+            return Ok(response);
+        }
+
         [HttpGet]
         [Route("GetHealthCampRequestById/{id}")]
         public async Task<IActionResult> GetHealthCampRequestById(int id)

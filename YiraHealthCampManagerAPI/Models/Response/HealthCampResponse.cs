@@ -30,6 +30,16 @@
         public List<HealthCampServiceRequestResponse> ServiceRequest { get; set; }
     }
 
+    public class OrgContactDetailsResponse
+    {
+        public int OrgId { get; set; }
+        public string OrgName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string ContactPerson { get; set; }
+    }
+
     public class HealthCampServiceRequestResponse
     {
         public int Id { get; set; }

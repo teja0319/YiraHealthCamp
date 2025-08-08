@@ -23,7 +23,6 @@ namespace YiraHealthCampManagerAPI.Controllers
             return Ok(await _accountService.Login(model, code));
         }
 
-
         [AllowAnonymous]
         [Route("RegisterUserWeb")]
         [HttpPost]
