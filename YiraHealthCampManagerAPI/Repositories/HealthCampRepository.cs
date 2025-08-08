@@ -168,18 +168,16 @@ namespace YiraHealthCampManagerAPI.Repositories
                 ApprovalStatus status = !string.IsNullOrEmpty(approvalStatus) ? (ApprovalStatus)Enum.Parse(typeof(ApprovalStatus), approvalStatus, true) :ApprovalStatus.Pending;
 
                 var query = from h in _context.HealthCampRequest
+                            join org in _context.organizations on h.OrgId equals org.OrganizationID
                             join s in _context.RequestedService on h.Id equals s.HealthCampRequestId
                             join healthService in _context.HealthService on s.ServiceId equals healthService.ServiceID into healthServices
                             from healthService in healthServices.DefaultIfEmpty()
-                            where (OrgId != 0 ? h.OrgId == OrgId : true) && healthService.Status == true && (string.IsNullOrEmpty(approvalStatus) || h.ApprovalStatus == status.ToString())
+                            where (OrgId != 0 ? h.OrgId == OrgId : true) && healthService.Status == true && (string.IsNullOrEmpty(approvalStatus) || h.ApprovalStatus == status.ToString()) && s.Status == true
                             select new
                             {
                                 Id = h.Id,
                                 OrgId = h.OrgId,
-                                OrgName = _context.organizations
-                                    .Where(o => o.OrganizationID == h.OrgId)
-                                    .Select(o => o.OrganizationName)
-                                    .FirstOrDefault(),
+                                OrgName = org.OrganizationName,
                                 CampName = h.CampName,
                                 EmployeesCount = h.EmployeesCount,
                                 CampDuration = h.CampDuration,
@@ -201,6 +199,7 @@ namespace YiraHealthCampManagerAPI.Repositories
                         Id = g.Key,
                         OrgId = g.FirstOrDefault().OrgId,
                         OrgName = g.FirstOrDefault().OrgName,
+                        UserId = g.FirstOrDefault().CreatedBy,
                         CampName = g.FirstOrDefault().CampName,
                         EmployeesCount = g.FirstOrDefault().EmployeesCount,
                         CampDuration = g.FirstOrDefault().CampDuration,
@@ -251,6 +250,7 @@ namespace YiraHealthCampManagerAPI.Repositories
             try
             {
                 var healthCampRequest = await (from h in _context.HealthCampRequest
+                                               join org in _context.organizations on h.OrgId equals org.OrganizationID
                                                join s in _context.RequestedService on h.Id equals s.HealthCampRequestId into services
                                                from service in services.DefaultIfEmpty()
                                                join healthService in _context.HealthService on service.ServiceId equals healthService.ServiceID into healthServices
@@ -261,6 +261,11 @@ namespace YiraHealthCampManagerAPI.Repositories
                                                    Id = h.Id,
                                                    OrgId = h.OrgId,
                                                    CampName = h.CampName,
+                                                   OrgName = org.OrganizationName,
+                                                   Address = org.Address,
+                                                   email = org.EmailID,
+                                                   PhoneNumber = org.PhoneNumber,
+                                                   AdminUserName = org.AdminUserName,
                                                    EmployeesCount = h.EmployeesCount,
                                                    CampDuration = h.CampDuration,
                                                    PreferredDate = h.PreferredDate,
@@ -276,6 +281,12 @@ namespace YiraHealthCampManagerAPI.Repositories
                                                {
                                                    Id = g.Key,
                                                    OrgId = g.FirstOrDefault().OrgId,
+                                                   OrgName = g.FirstOrDefault().OrgName,
+                                                   Address = g.FirstOrDefault().Address,
+                                                   Email = g.FirstOrDefault().email,
+                                                   PhoneNumber = g.FirstOrDefault().PhoneNumber,
+                                                   AdminUserName = g.FirstOrDefault().AdminUserName,
+                                                   UserId = g.FirstOrDefault().CreatedBy,
                                                    CampName = g.FirstOrDefault().CampName,
                                                    EmployeesCount = g.FirstOrDefault().EmployeesCount,
                                                    CampDuration = g.FirstOrDefault().CampDuration,
